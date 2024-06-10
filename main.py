@@ -1,7 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 
-class UntitledProject:
+class GifMate:
     def __init__(self, root, gif_path):
         self.root = root
         self.root.overrideredirect(True)  # Remove window decorations
@@ -61,12 +61,14 @@ class UntitledProject:
 
         # Create context menu for right click
         self.context_menu = tk.Menu(root, tearoff=0)
-        self.context_menu.add_command(label="Transparency Setting", command=self.transparency_setting)
-        self.context_menu.add_command(label="Speed Setting", command=self.speed_setting)
-        self.context_menu.add_command(label="Gif Setting", command=self.gif_setting)
-        self.context_menu.add_command(label="Scale Setting", command=self.scale_setting)
+        self.context_menu.add_command(label="Transparency Settings", command=self.transparency_setting)
+        self.context_menu.add_command(label="Change Framerate", command=self.framerate_setting)
+        self.context_menu.add_command(label="Change Size", command=self.size_setting)
         self.context_menu.add_separator()
-        self.context_menu.add_command(label="Minimize", command=self.minimize)
+        self.context_menu.add_command(label="Import new GIF", command=self.import_gif)
+        self.context_menu.add_command(label="Select GIF", command=self.select_gif)
+        self.context_menu.add_separator()
+        self.context_menu.add_command(label="About", command=self.about)
         self.context_menu.add_command(label="Close", command=self.close)
 
         # Start the animation
@@ -75,7 +77,7 @@ class UntitledProject:
     def animate_gif(self):
         self.gif_frame_index = (self.gif_frame_index + 1) % len(self.frames)
         self.label.config(image=self.frames[self.gif_frame_index])
-        self.root.after(20, self.animate_gif)  # Adjust delay as needed for your GIF
+        self.root.after(100, self.animate_gif)  # Adjust delay as needed for your GIF
 
     def on_right_click(self, event):
         print("Right-clicked at", event.x, event.y)
@@ -95,22 +97,25 @@ class UntitledProject:
     def transparency_setting(self):
         print("Transparency Setting selected")
 
-    def speed_setting(self):
+    def framerate_setting(self):
         print("Speed Setting selected")
 
-    def gif_setting(self):
-        print("Gif Setting selected")
-
-    def scale_setting(self):
+    def size_setting(self):
+        print("Size Setting selected")
+    
+    def import_gif(self):
+        print("Import GIF selected")
+        
+    def select_gif(self):
+        print("Select GIF selected")
+    
+    def about(self):
         print("Scale Setting selected")
-
-    def minimize(self):
-        self.root.iconify()
 
     def close(self):
         self.root.destroy()
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = UntitledProject(root, "fries.gif")  # Set desired width and height
+    app = GifMate(root, "sponge.gif")  # Set desired width and height
     root.mainloop()
