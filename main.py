@@ -1,33 +1,55 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 
-class TransparentGifApp:
-    def __init__(self, root, gif_path, width, height):
+class UntitledProject:
+    def __init__(self, root, gif_path):
         self.root = root
         self.root.overrideredirect(True)  # Remove window decorations
-        self.root.attributes("-transparentcolor", "white")  # Set white as the transparent color
-        self.root.geometry(f"{width}x{height}")  # Set initial window size
+        
         self.root.attributes("-topmost", True)  # Keep the window on top
+
 
         # Make the window resizable
         self.root.resizable(True, True)
 
-        # Load and scale GIF
+        # Load GIF
         self.gif = Image.open(gif_path)
+        
+        # Determine the transparent Color of the Gif
+        try:
+            self.gif_transparency = self.gif.info['transparency']
+            palette = self.gif.getpalette()
+            start_index = self.gif_transparency * 3
+            end_index = start_index + 3
+            r, g, b = palette[start_index:end_index]
+            self.gif_transparency_hex_color = f'#{r:02x}{g:02x}{b:02x}'
+            print(self.gif_transparency_hex_color)
+        except:
+            self.gif_transparency_hex_color = "white"
+            self.root.attributes("-transparentcolor", "white")  # Set white as the transparent color
+        
+        # Get Size of the Gif
+        
+        self.root.geometry(f"{self.gif.width}x{self.gif.height}")  # Set initial window size
+        
+        
         self.frames = []
         try:
             while True:
                 frame = self.gif.copy().convert("RGBA")
-                frame = frame.resize((width, height))
+                #frame = frame.resize((width, height))
                 self.frames.append(ImageTk.PhotoImage(frame))
                 self.gif.seek(len(self.frames))  # Move to the next frame
         except EOFError:
             pass
-
+        
+        
+        
         self.gif_frame_index = 0
 
         # Create a label to display the GIF
-        self.label = tk.Label(root, bg='white')
+        self.label = tk.Label(root, bg=self.gif_transparency_hex_color) # <- insert gif_transparency here
+        self.root.attributes("-transparentcolor", self.gif_transparency_hex_color)  # Set white as the transparent color
         self.label.pack(expand=True, fill=tk.BOTH)
 
         # Set up mouse binding for right-click
@@ -37,7 +59,7 @@ class TransparentGifApp:
         self.label.bind("<Button-1>", self.start_move)
         self.label.bind("<B1-Motion>", self.do_move)
 
-        # Create context menu
+        # Create context menu for right click
         self.context_menu = tk.Menu(root, tearoff=0)
         self.context_menu.add_command(label="Transparency Setting", command=self.transparency_setting)
         self.context_menu.add_command(label="Speed Setting", command=self.speed_setting)
@@ -53,7 +75,7 @@ class TransparentGifApp:
     def animate_gif(self):
         self.gif_frame_index = (self.gif_frame_index + 1) % len(self.frames)
         self.label.config(image=self.frames[self.gif_frame_index])
-        self.root.after(100, self.animate_gif)  # Adjust delay as needed for your GIF
+        self.root.after(20, self.animate_gif)  # Adjust delay as needed for your GIF
 
     def on_right_click(self, event):
         print("Right-clicked at", event.x, event.y)
@@ -90,5 +112,5 @@ class TransparentGifApp:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = TransparentGifApp(root, "garf3.gif", 200, 178)  # Set desired width and height
+    app = UntitledProject(root, "fries.gif")  # Set desired width and height
     root.mainloop()
