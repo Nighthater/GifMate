@@ -6,7 +6,7 @@ import h_giftools
 import h_contextmenu
 
 class GifMate:
-    def __init__(self, root, gif_path):
+    def __init__(self, root, gif_path, pos_x, pos_y):
         self.root = root
         self.root.overrideredirect(True)        # Remove window decorations
         self.root.attributes("-topmost", True)  # Keep the window on top
@@ -23,6 +23,8 @@ class GifMate:
         
         # Get size of the GIF
         self.root.geometry(f"{self.gif.width}x{self.gif.height}")  # Set initial window size
+        self.root.geometry('%dx%d+%d+%d' % (self.gif.width, self.gif.height, pos_x, pos_y))
+
         
         self.frames = []
         try:
@@ -98,18 +100,30 @@ class GifMate:
         self.root.geometry(f"+{x}+{y}")
 
     def setting_transparency(self):
+        # Add Overall Alpha Layer to the GIF - TODO
         h_contextmenu.s_transparency()
     
     def setting_import_gif(self):
+        # Select a GIF from anywhere and import it into a gif folder inside the Program folder - TODO
         h_contextmenu.s_import_gif()
         
     def setting_select_gif(self):
+        # Select a GIF from inside the Program folder - TODO
         h_contextmenu.s_select_gif()
     
     def setting_about(self):
+        # Open the Info Screen - TODO
         h_contextmenu.s_about(self.root)
 
     def setting_close(self):
+        with open('config.yaml', 'r') as file:
+            config_data = yaml.safe_load(file)
+        
+        config_data['last_pos_X'] = self.root.winfo_x()
+        config_data['last_pos_Y'] = self.root.winfo_y()
+        
+        with open('config.yaml', 'w') as file:
+            yaml.dump(config_data, file)
         self.root.destroy()
         
     def size_scale(self, scale_factor):
@@ -128,5 +142,23 @@ if __name__ == "__main__":
     # Get Path of File
     gif_path = config_data.get('gif_name')
     
-    app = GifMate(root, gif_path)  # Set the desired GIF path
+    print(config_data.get('first_run'))
+    
+    # Check for first run
+    if config_data.get('first_run') == True:
+        # Place Window at the Center
+        ws = root.winfo_screenwidth() # width of the screen
+        hs = root.winfo_screenheight() # height of the screen
+        pos_x = (ws/2)
+        pos_y = (hs/2)
+        
+        config_data['first_run'] = False
+        
+        with open('config.yaml', 'w') as file:
+            yaml.dump(config_data, file)
+    else:
+        pos_x = config_data.get('last_pos_X')
+        pos_y = config_data.get('last_pos_Y')
+    
+    app = GifMate(root, gif_path, pos_x, pos_y)
     root.mainloop()
