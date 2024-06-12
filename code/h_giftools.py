@@ -14,14 +14,26 @@ def get_gif_transparent_color(gif):
         hexcode = f'#{r:02x}{g:02x}{b:02x}'
     except:
         hexcode = "white"
-    
     return hexcode
 
+def get_gif_speed(gif):
+    gif.seek(0)
+    frames = duration = 0
+    while True:
+        try:
+            frames += 1
+            duration += gif.info['duration']
+            gif.seek(gif.tell() + 1)
+        except EOFError:
+            return frames / duration * 1000
+    return None
 
-def rescale_gif(self, old_width, old_height, scale_factor):
+
+
+def rescale_gif(self, scale_factor):
     self.frames = []
-    new_width = int(float(old_width) * scale_factor)
-    new_height = int(float(old_height) * scale_factor)
+    new_width = int(float(self.gif.width) * scale_factor)
+    new_height = int(float(self.gif.height) * scale_factor)
     try:
         self.gif.seek(0)
         while True:

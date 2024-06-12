@@ -17,6 +17,9 @@ class GifMate:
         # Determine the transparent color of the GIF
         self.gif_transparency_hex_color = h_giftools.get_gif_transparent_color(self.gif)
         
+        # Determine the Framerate of the GIF
+        self.gif_frame_duration = int(h_giftools.get_gif_speed(self.gif))
+        
         # Get size of the GIF
         self.root.geometry(f"{self.gif.width}x{self.gif.height}")  # Set initial window size
         
@@ -48,11 +51,11 @@ class GifMate:
         
         # Create Size Submenu
         self.submenu_size = tk.Menu(self.context_menu, tearoff=0)
-        self.submenu_size.add_command(label="2.00x", command=self.size_scale_200)
-        self.submenu_size.add_command(label="1.50x", command=self.size_scale_150)
-        self.submenu_size.add_command(label="1.00x", command=self.size_scale_100)
-        self.submenu_size.add_command(label="0.75x", command=self.size_scale_075)
-        self.submenu_size.add_command(label="0.50x", command=self.size_scale_050)
+        self.submenu_size.add_command(label="2.00x", command= lambda: self.size_scale(2.00))
+        self.submenu_size.add_command(label="1.50x", command= lambda: self.size_scale(1.50))
+        self.submenu_size.add_command(label="1.00x", command= lambda: self.size_scale(1.00))
+        self.submenu_size.add_command(label="0.75x", command= lambda: self.size_scale(0.75))
+        self.submenu_size.add_command(label="0.50x", command= lambda: self.size_scale(0.50))
         
         self.context_menu.add_command(label="Transparency Settings", command=self.setting_transparency)
         self.context_menu.add_command(label="Change Framerate", command=self.setting_framerate)
@@ -70,7 +73,7 @@ class GifMate:
     def animate_gif(self):
         self.gif_frame_index = (self.gif_frame_index + 1) % len(self.frames)
         self.label.config(image=self.frames[self.gif_frame_index])
-        self.root.after(60, self.animate_gif)  # Adjust delay as needed for your GIF
+        self.root.after(self.gif_frame_duration*2, self.animate_gif)  # Adjust delay as needed for your GIF
 
     def show_context_menu(self, event):
         self.context_menu.post(event.x_root, event.y_root)
@@ -102,25 +105,8 @@ class GifMate:
     def setting_close(self):
         self.root.destroy()
         
-    def size_scale_200(self):
-        scale_factor = 2.00
-        h_giftools.rescale_gif(self, self.gif.width, self.gif.height, scale_factor)
-    
-    def size_scale_150(self):
-        scale_factor = 1.50
-        h_giftools.rescale_gif(self, self.gif.width, self.gif.height, scale_factor)
-        
-    def size_scale_100(self):
-        scale_factor = 1.00
-        h_giftools.rescale_gif(self, self.gif.width, self.gif.height, scale_factor)
-    
-    def size_scale_075(self):
-        scale_factor = 0.75
-        h_giftools.rescale_gif(self, self.gif.width, self.gif.height, scale_factor)
-    
-    def size_scale_050(self):
-        scale_factor = 0.50
-        h_giftools.rescale_gif(self, self.gif.width, self.gif.height, scale_factor)
+    def size_scale(self, scale_factor):
+        h_giftools.rescale_gif(self, scale_factor)
 
 if __name__ == "__main__":
     root = tk.Tk()
