@@ -57,8 +57,17 @@ class GifMate:
         self.submenu_size.add_command(label="0.75x", command= lambda: self.size_scale(0.75))
         self.submenu_size.add_command(label="0.50x", command= lambda: self.size_scale(0.50))
         
+        # Create Framerate Submenu
+        self.submenu_speed = tk.Menu(self.context_menu, tearoff=0)
+        self.submenu_speed.add_command(label="2.00x", command= lambda: self.framerate_scale(2.00))
+        self.submenu_speed.add_command(label="1.50x", command= lambda: self.framerate_scale(1.50))
+        self.submenu_speed.add_command(label="1.00x", command= lambda: self.framerate_scale(1.00))
+        self.submenu_speed.add_command(label="0.75x", command= lambda: self.framerate_scale(0.75))
+        self.submenu_speed.add_command(label="0.50x", command= lambda: self.framerate_scale(0.50))
+        
+        # Create context menu
         self.context_menu.add_command(label="Transparency Settings", command=self.setting_transparency)
-        self.context_menu.add_command(label="Change Framerate", command=self.setting_framerate)
+        self.context_menu.add_cascade(label="Change Framerate", menu=self.submenu_speed)
         self.context_menu.add_cascade(label="Change Size", menu=self.submenu_size)
         self.context_menu.add_separator()
         self.context_menu.add_command(label="Import new GIF", command=self.setting_import_gif)
@@ -107,6 +116,9 @@ class GifMate:
         
     def size_scale(self, scale_factor):
         h_giftools.rescale_gif(self, scale_factor)
+        
+    def framerate_scale(self, scale_factor):
+        h_giftools.change_framerate_gif(self, scale_factor)
 
 if __name__ == "__main__":
     root = tk.Tk()

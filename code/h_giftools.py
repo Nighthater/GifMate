@@ -29,7 +29,6 @@ def get_gif_speed(gif):
     return None
 
 
-
 def rescale_gif(self, scale_factor):
     self.frames = []
     new_width = int(float(self.gif.width) * scale_factor)
@@ -49,3 +48,7 @@ def rescale_gif(self, scale_factor):
     self.root.geometry(f"{new_width}x{new_height}")
     
 
+def change_framerate_gif(self, scale_factor):
+    old_framerate = get_gif_speed(self.gif)
+    new_framerate = float(old_framerate) / float(scale_factor)
+    self.gif_frame_duration = int(new_framerate)
