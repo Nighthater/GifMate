@@ -1,6 +1,8 @@
 import tkinter as tk
-from tkinter import ttk
 from PIL import Image, ImageTk
+
+import h_giftools
+import h_contextmenu
 
 class GifMate:
     def __init__(self, root, gif_path):
@@ -13,16 +15,7 @@ class GifMate:
         self.gif = Image.open(gif_path)
         
         # Determine the transparent color of the GIF
-        try:
-            self.gif_transparency = self.gif.info['transparency']
-            palette = self.gif.getpalette()
-            start_index = self.gif_transparency * 3
-            end_index = start_index + 3
-            r, g, b = palette[start_index:end_index]
-            self.gif_transparency_hex_color = f'#{r:02x}{g:02x}{b:02x}'
-        except:
-            self.gif_transparency_hex_color = "white"
-            self.root.attributes("-transparentcolor", "white")  # Set white as the transparent color
+        self.gif_transparency_hex_color = h_giftools.get_gif_transparent_color(self.gif)
         
         # Get size of the GIF
         self.root.geometry(f"{self.gif.width}x{self.gif.height}")  # Set initial window size
@@ -51,10 +44,19 @@ class GifMate:
         self.label.bind("<B1-Motion>", self.do_move)
 
         # Create context menu for right click using tk.Menu
-        self.context_menu = tk.Menu(root, tearoff=0, bg="#333", fg="#fff", bd=5, activebackground="#555", activeforeground="#fff")
+        self.context_menu = tk.Menu(root, tearoff=0)
+        
+        # Create Size Submenu
+        self.submenu_size = tk.Menu(self.context_menu, tearoff=0)
+        self.submenu_size.add_command(label="2.00x", command=self.size_scale_200)
+        self.submenu_size.add_command(label="1.50x", command=self.size_scale_150)
+        self.submenu_size.add_command(label="1.00x", command=self.size_scale_100)
+        self.submenu_size.add_command(label="0.75x", command=self.size_scale_075)
+        self.submenu_size.add_command(label="0.50x", command=self.size_scale_050)
+        
         self.context_menu.add_command(label="Transparency Settings", command=self.setting_transparency)
         self.context_menu.add_command(label="Change Framerate", command=self.setting_framerate)
-        self.context_menu.add_command(label="Change Size", command=self.setting_size)
+        self.context_menu.add_cascade(label="Change Size", menu=self.submenu_size)
         self.context_menu.add_separator()
         self.context_menu.add_command(label="Import new GIF", command=self.setting_import_gif)
         self.context_menu.add_command(label="Select GIF", command=self.setting_select_gif)
@@ -83,25 +85,42 @@ class GifMate:
         self.root.geometry(f"+{x}+{y}")
 
     def setting_transparency(self):
-        print("Transparency Setting selected")
+        h_contextmenu.s_transparency()
 
     def setting_framerate(self):
-        print("Framerate Setting selected")
-
-    def setting_size(self):
-        print("Size Setting selected")
+        h_contextmenu.s_framerate()
     
     def setting_import_gif(self):
-        print("Import GIF selected")
+        h_contextmenu.s_import_gif()
         
     def setting_select_gif(self):
-        print("Select GIF selected")
+        h_contextmenu.s_select_gif()
     
     def setting_about(self):
-        print("About Section selected")
+        h_contextmenu.s_about(self.root)
 
     def setting_close(self):
         self.root.destroy()
+        
+    def size_scale_200(self):
+        scale_factor = 2.00
+        h_giftools.rescale_gif(self, self.gif.width, self.gif.height, scale_factor)
+    
+    def size_scale_150(self):
+        scale_factor = 1.50
+        h_giftools.rescale_gif(self, self.gif.width, self.gif.height, scale_factor)
+        
+    def size_scale_100(self):
+        scale_factor = 1.00
+        h_giftools.rescale_gif(self, self.gif.width, self.gif.height, scale_factor)
+    
+    def size_scale_075(self):
+        scale_factor = 0.75
+        h_giftools.rescale_gif(self, self.gif.width, self.gif.height, scale_factor)
+    
+    def size_scale_050(self):
+        scale_factor = 0.50
+        h_giftools.rescale_gif(self, self.gif.width, self.gif.height, scale_factor)
 
 if __name__ == "__main__":
     root = tk.Tk()
