@@ -1,5 +1,6 @@
 import tkinter as tk
 from PIL import Image, ImageTk
+import yaml
 
 import h_giftools
 import h_contextmenu
@@ -119,5 +120,13 @@ class GifMate:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = GifMate(root, "dance.gif")  # Set the desired GIF path
+    
+    # Read config file
+    with open('config.yaml', 'r') as file:
+        config_data = yaml.safe_load(file)
+    
+    # Get Path of File
+    gif_path = config_data.get('gif_name')
+    
+    app = GifMate(root, gif_path)  # Set the desired GIF path
     root.mainloop()

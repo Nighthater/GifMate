@@ -1,6 +1,6 @@
 # h_giftools.py
 
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageFilter
 
 # Determine the transparent color of a GIF
 def get_gif_transparent_color(gif):
@@ -38,7 +38,6 @@ def rescale_gif(self, scale_factor):
         while True:
             frame = self.gif.copy().convert("RGBA")
             resized_frame = frame.resize((new_width, new_height), Image.NEAREST)
-            # Create a new image with a transparent background
             new_frame = Image.new("RGBA", (new_width, new_height), (0, 0, 0, 0))
             new_frame.paste(resized_frame, (0, 0), resized_frame)
             self.frames.append(ImageTk.PhotoImage(new_frame))
