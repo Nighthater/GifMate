@@ -6,9 +6,6 @@ from PIL import Image, ImageTk
 def s_transparency():
     print("Transparency Setting selected")
 
-def s_framerate():
-    print("Framerate Setting selected")
-
 def s_import_gif():
     print("Import GIF selected")
     

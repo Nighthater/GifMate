@@ -98,9 +98,6 @@ class GifMate:
 
     def setting_transparency(self):
         h_contextmenu.s_transparency()
-
-    def setting_framerate(self):
-        h_contextmenu.s_framerate()
     
     def setting_import_gif(self):
         h_contextmenu.s_import_gif()
