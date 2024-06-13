@@ -62,9 +62,4 @@ This project is licensed under the GPL-3.0 License - see the LICENSE file for de
 
 Contributions are welcome! Please open an issue or submit a pull request for any enhancements or bug fixes.
 
-### Acknowledgements
-
-- Tkinter - Python's de-facto standard GUI package.
-- Pillow - The Python Imaging Library adds image processing capabilities.
-
 Enjoy using GifMate!
