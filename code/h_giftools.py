@@ -1,6 +1,8 @@
 # h_giftools.py
 
 from PIL import Image, ImageTk, ImageFilter
+import tkinter as tk
+
 
 # Determine the transparent color of a GIF
 def get_gif_transparent_color(gif):
@@ -51,3 +53,27 @@ def change_framerate_gif(self, scale_factor):
     old_framerate = get_gif_speed(self.gif)
     new_framerate = float(old_framerate) / float(scale_factor)
     self.gif_frame_duration = int(new_framerate)
+
+
+def load_gif(self, gif_path):
+    self.gif = Image.open(gif_path)
+    
+    # Determine the transparent color of the GIF
+    self.gif_transparency_hex_color = get_gif_transparent_color(self.gif)
+    
+    # Determine the Framerate of the GIF
+    self.gif_frame_duration = int(get_gif_speed(self.gif))
+    
+    # Get size of the GIF
+    self.root.geometry(f"{self.gif.width}x{self.gif.height}")  # Set initial window size
+
+    self.frames = []
+    try:
+        while True:
+            frame = self.gif.copy().convert("RGBA")
+            self.frames.append(ImageTk.PhotoImage(frame))
+            self.gif.seek(len(self.frames))  # Move to the next frame
+    except EOFError:
+        pass
+    
+    self.gif_frame_index = 0

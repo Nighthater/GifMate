@@ -101,15 +101,15 @@ class GifMate:
 
     def setting_transparency(self):
         # Add Overall Alpha Layer to the GIF - TODO
-        h_contextmenu.s_transparency()
+        h_contextmenu.s_transparency(self)
     
     def setting_import_gif(self):
         # Select a GIF from anywhere and import it into a gif folder inside the Program folder - TODO
-        h_contextmenu.s_import_gif()
+        h_contextmenu.s_import_gif(self)
         
     def setting_select_gif(self):
         # Select a GIF from inside the Program folder - TODO
-        h_contextmenu.s_select_gif()
+        h_contextmenu.s_select_gif(self)
     
     def setting_about(self):
         # Open the Info Screen - TODO
