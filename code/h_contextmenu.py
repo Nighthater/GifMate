@@ -1,4 +1,6 @@
 # h_contextmenu.py
+# Everything that happens when the right mouse button is clicked on the GIF
+
 import tkinter as tk
 from tkinter import ttk, filedialog, Toplevel
 import os
@@ -9,46 +11,18 @@ import h_giftools
 
 
 def s_transparency(self):
-    print("Transparency Setting selected")
     h_experimental.show_speech_bubble(self)
 
     
 def s_import_gif(self):
-    print("Import GIF selected")
     initial_dir = "/"
-    
-    file_path = filedialog.askopenfilename(
-        initialdir=initial_dir,
-        title="Select a GIF file",
-        filetypes=(("GIF images", "*.gif"), ("All files", "*.*"))
-    )
-    h_experimental.show_speech_bubble(self)
-
+    h_giftools.pick_gif(self, initial_dir)
 
 
 def s_select_gif(self):
-    print("Select GIF selected")
     initial_dir = os.getcwd() + '/gifs'
+    h_giftools.pick_gif(self, initial_dir)
     
-    file_path = filedialog.askopenfilename(
-        initialdir=initial_dir,
-        title="Select a GIF file",
-        filetypes=(("GIF images", "*.gif"), ("All files", "*.*"))
-    )
-
-    # 
-    if os.path.isfile(file_path) and file_path.lower().endswith('.gif'):
-        # Verify the file type is actually a gif
-        if imghdr.what(file_path) == 'gif':
-            # Verify that the Gif is in the relative folder '/gifs' 
-            if os.path.commonpath([os.path.realpath(file_path), os.path.realpath('./gifs')]) == os.path.realpath('./gifs'):
-                # change the filename in the config
-                # reload the gif
-                h_giftools.load_gif(self, file_path)
-            
-        
-
-
 
 def s_about(root):
     # Create new window

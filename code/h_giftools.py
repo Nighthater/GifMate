@@ -2,6 +2,10 @@
 
 from PIL import Image, ImageTk, ImageFilter
 import tkinter as tk
+from tkinter import ttk, filedialog, Toplevel
+import os
+import imghdr
+
 
 
 # Determine the transparent color of a GIF
@@ -27,7 +31,7 @@ def get_gif_speed(gif):
             duration += gif.info['duration']
             gif.seek(gif.tell() + 1)
         except EOFError:
-            return frames / duration * 1000
+            return duration / frames
     return None
 
 
@@ -53,6 +57,22 @@ def change_framerate_gif(self, scale_factor):
     old_framerate = get_gif_speed(self.gif)
     new_framerate = float(old_framerate) / float(scale_factor)
     self.gif_frame_duration = int(new_framerate)
+
+def pick_gif(self, initial_path):
+    file_path = filedialog.askopenfilename(
+        initialdir = initial_path,
+        title = "Select a GIF file",
+        filetypes = (("GIF images", "*.gif"), ("All files", "*.*"))
+    )
+    
+    if os.path.isfile(file_path) and file_path.lower().endswith('.gif'):
+        # Verify the file type is actually a gif
+        if imghdr.what(file_path) == 'gif':
+            # Verify that the Gif is in the relative folder '/gifs' 
+            if os.path.commonpath([os.path.realpath(file_path), os.path.realpath('./gifs')]) == os.path.realpath('./gifs'):
+                # change the filename in the config
+                # reload the gif
+                load_gif(self, file_path)
 
 
 def load_gif(self, gif_path):
