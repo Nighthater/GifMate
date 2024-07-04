@@ -136,11 +136,32 @@ class GifMate:
 if __name__ == "__main__":
     root = tk.Tk()
     
-    # Read config file
-    with open('config.yaml', 'r') as file:
-        config_data = yaml.safe_load(file)
+    # Check for config file
+    config_file = "config.yaml"
+    
+    if config_file.exists():
+        with open(config_file, 'r') as file:
+            config_data = yaml.safe_load(file)
+    else:
+        # create file
+        f = open(config_file, 'a+')
+        f.write('gif_name: gifs/gif.gif')
+        f.write('first_run: true')
+        f.write('last_pos_X: 0')
+        f.write('last_pos_Y: 0')
+        f.write('version: 1.0.0')
+        f.close()
+    
+    # Check for Gifs Folder
+    gifs_folder = "/gifs"
+    if gifs_folder.exists():
+        # good
+    else:
+        # create empty folder
+        # abort program
     
     # Get Path of File
+    # if empty, open file dialog and abort if nothing is selected
     gif_path = config_data.get('gif_name')
     
     print(config_data.get('first_run'))
