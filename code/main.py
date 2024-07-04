@@ -1,9 +1,10 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import yaml
-
+import os
 import h_giftools
 import h_contextmenu
+import shutil
 
 class GifMate:
     def __init__(self, root, gif_path, pos_x, pos_y):
@@ -139,32 +140,42 @@ if __name__ == "__main__":
     # Check for config file
     config_file = "config.yaml"
     
-    if config_file.exists():
+    if os.path.exists(config_file) and os.path.isfile(config_file):
         with open(config_file, 'r') as file:
             config_data = yaml.safe_load(file)
     else:
         # create file
         f = open(config_file, 'a+')
-        f.write('gif_name: gifs/gif.gif')
-        f.write('first_run: true')
-        f.write('last_pos_X: 0')
-        f.write('last_pos_Y: 0')
+        f.write('gif_name: gifs/gif.gif\n')
+        f.write('first_run: true\n')
+        f.write('last_pos_X: 0\n')
+        f.write('last_pos_Y: 0\n')
         f.write('version: 1.0.0')
         f.close()
+        
+        with open(config_file, 'r') as file:
+            config_data = yaml.safe_load(file)
     
     # Check for Gifs Folder
-    gifs_folder = "/gifs"
-    if gifs_folder.exists():
-        # good
+    gifs_folder = "gifs/"
+    if os.path.exists(gifs_folder) and os.path.isdir(gifs_folder):
+        pass
     else:
-        # create empty folder
-        # abort program
+        os.makedirs(gifs_folder)
+        
     
     # Get Path of File
     # if empty, open file dialog and abort if nothing is selected
     gif_path = config_data.get('gif_name')
-    
-    print(config_data.get('first_run'))
+    if os.path.exists(gif_path) and os.path.isfile(gif_path):
+        pass
+    else:
+        initial_path = "/"
+        source_path = h_giftools.initial_pick_gif(initial_path)
+        destination_path = "/gifs"
+        shutil.copy(source_path, destination_path)
+        gif_path = destination_path + "/" + os.path.basename(source_path)
+        config_data['gif_name'] = gif_path
     
     # Check for first run
     if config_data.get('first_run') == True:

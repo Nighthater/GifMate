@@ -58,6 +58,21 @@ def change_framerate_gif(self, scale_factor):
     new_framerate = float(old_framerate) / float(scale_factor)
     self.gif_frame_duration = int(new_framerate)
 
+
+def initial_pick_gif(initial_path):
+    file_path = filedialog.askopenfilename(
+        initialdir = initial_path,
+        title = "Please Select a GIF file",
+        filetypes = (("GIF images", "*.gif"), ("All files", "*.*"))
+    )
+    
+    if os.path.isfile(file_path) and file_path.lower().endswith('.gif'):
+        # Verify the file type is actually a gif
+        if imghdr.what(file_path) == 'gif':
+            return file_path
+
+
+
 def pick_gif(self, initial_path):
     file_path = filedialog.askopenfilename(
         initialdir = initial_path,
