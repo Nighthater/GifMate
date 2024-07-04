@@ -173,9 +173,10 @@ if __name__ == "__main__":
         initial_path = "/"
         source_path = h_giftools.initial_pick_gif(initial_path)
         destination_path = "/gifs"
-        shutil.copy(source_path, destination_path)
+        shutil.copy(source_path, destination_path) # Somewhere here is an error... TODO
         gif_path = destination_path + "/" + os.path.basename(source_path)
         config_data['gif_name'] = gif_path
+        
     
     # Check for first run
     if config_data.get('first_run') == True:
