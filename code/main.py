@@ -85,7 +85,7 @@ class GifMate:
     def animate_gif(self):
         self.gif_frame_index = (self.gif_frame_index + 1) % len(self.frames)
         self.label.config(image=self.frames[self.gif_frame_index])
-        self.root.after(self.gif_frame_duration*2, self.animate_gif)  # Adjust delay as needed for your GIF
+        self.root.after(self.gif_frame_duration, self.animate_gif)
 
     def show_context_menu(self, event):
         self.context_menu.post(event.x_root, event.y_root)
@@ -104,11 +104,11 @@ class GifMate:
         h_contextmenu.s_transparency(self)
     
     def setting_import_gif(self):
-        # Select a GIF from anywhere and import it into a gif folder inside the Program folder - TODO
+        # Select a GIF from anywhere and import it into a gif folder inside the Program folder
         h_contextmenu.s_import_gif(self)
         
     def setting_select_gif(self):
-        # Select a GIF from inside the Program folder - TODO
+        # Select a GIF from inside the Program folder
         h_contextmenu.s_select_gif(self)
     
     def setting_about(self):
@@ -127,6 +127,7 @@ class GifMate:
         self.root.destroy()
         
     def size_scale(self, scale_factor):
+        print("Factor: " + str(scale_factor))
         h_giftools.rescale_gif(self, scale_factor)
         
     def framerate_scale(self, scale_factor):

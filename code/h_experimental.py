@@ -1,8 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, filedialog, Toplevel
-import os
-from PIL import Image, ImageTk
-import imghdr
+from tkinter import Toplevel
 
 def show_speech_bubble(self):
     # Create a top-level window for the speech bubble
