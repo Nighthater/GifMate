@@ -37,22 +37,19 @@ pip install -r requirements.txt
 ```
 ### Usage
 
-1. Prepare the configuration file  ```config.yaml``` in the root directory:
+1. Place the 4 python files into a directory you want to run the program from
 
-```yaml
-gif_name: [FILENAME / PATH TO GIF].gif
-first_run: true
-last_pos_X: 0
-last_pos_Y: 0
-```
-
-2. Run the application:
+2.   Start the python file ```main.py```
 
 ```bash
 python main.py
 ```
 
-The Gif should appear in the centre of your monitor.
+4. A File opening dialog will appear. Select a Gif from your computer
+
+5. Loading currently takes a few seconds. After loading the Gif should appear in the centre of your monitor.
+
+6. Use right click on the Gif to see more options.
 
 ### License
 
