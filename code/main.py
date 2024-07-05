@@ -150,7 +150,6 @@ if __name__ == "__main__":
         f.write('first_run: true\n')
         f.write('last_pos_X: 0\n')
         f.write('last_pos_Y: 0\n')
-        f.write('version: 1.0.0')
         f.close()
         
         with open(config_file, 'r') as file:
@@ -172,9 +171,9 @@ if __name__ == "__main__":
     else:
         initial_path = "/"
         source_path = h_giftools.initial_pick_gif(initial_path)
-        destination_path = "/gifs"
-        shutil.copy(source_path, destination_path) # Somewhere here is an error... TODO
-        gif_path = destination_path + "/" + os.path.basename(source_path)
+        destination_path = os.getcwd() + "/gifs"
+        shutil.copy(source_path, destination_path)
+        gif_path = "gifs/" + os.path.basename(source_path)
         config_data['gif_name'] = gif_path
         
     
