@@ -6,6 +6,8 @@ import yaml
 import h_giftools
 import h_contextmenu
 
+import svc_ttk
+
 
 class GifMate:
     def __init__(self, root, gif_path, pos_x, pos_y):
@@ -182,6 +184,7 @@ def main():
         pos_y = config_data.get('last_pos_Y', 0)
 
     app = GifMate(root, gif_path, pos_x, pos_y)
+    svc_ttk.set_theme("dark")
     root.mainloop()
 
 

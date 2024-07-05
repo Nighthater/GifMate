@@ -9,7 +9,7 @@ import imghdr
 import h_experimental
 import h_giftools
 import webbrowser
-
+import svc_ttk
 
 def s_transparency(self):
     h_experimental.show_speech_bubble(self)
@@ -72,3 +72,4 @@ def s_about(root):
 
     # Make the window non-resizable
     about_window.resizable(False, False)
+    svc_ttk.set_theme("dark")
