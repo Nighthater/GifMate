@@ -37,7 +37,7 @@ pip install -r requirements.txt
 ```
 ### Usage
 
-1. Place the 4 python files into a directory you want to run the program from
+1. Place only the python files into a directory you want to run the program from
 
 2.   Start the python file ```main.py```
 
