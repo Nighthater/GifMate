@@ -66,7 +66,7 @@ class GifMate:
         for scale in [2.00, 1.50, 1.00, 0.75, 0.50]:
             speed_menu.add_command(label=f"{scale:.2f}x", command=lambda s=scale: self.framerate_scale(s))
 
-        self.context_menu.add_command(label="Transparency Settings", command=self.setting_transparency)
+        # self.context_menu.add_command(label="Transparency Settings", command=self.setting_transparency)
         self.context_menu.add_cascade(label="Change Framerate", menu=speed_menu)
         self.context_menu.add_cascade(label="Change Size", menu=size_menu)
         self.context_menu.add_separator()
@@ -93,8 +93,8 @@ class GifMate:
         y = event.y_root - self.y
         self.root.geometry(f"+{x}+{y}")
 
-    def setting_transparency(self):
-        h_contextmenu.s_transparency(self)
+    # def setting_transparency(self):
+    #     h_contextmenu.s_transparency(self)
 
     def setting_import_gif(self):
         h_contextmenu.s_import_gif(self)

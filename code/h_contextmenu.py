@@ -6,13 +6,11 @@ from tkinter import ttk, filedialog, Toplevel
 import os
 from PIL import Image, ImageTk
 import imghdr
-import h_experimental
 import h_giftools
 import webbrowser
 import svc_ttk
 
-def s_transparency(self):
-    h_experimental.show_speech_bubble(self)
+#def s_transparency(self):
 
     
 def s_import_gif(self):
