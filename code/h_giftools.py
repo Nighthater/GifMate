@@ -6,6 +6,7 @@ from tkinter import ttk, filedialog, Toplevel
 import os
 import imghdr
 import shutil
+import yaml
 
 
 
@@ -86,15 +87,15 @@ def pick_gif(self, initial_path): # Enable Importing if the path is not in the g
     
     
     # Verify that the file is indeed a file
-    if os.path.isfile(file_path) 
+    if not os.path.isfile(file_path):
         return
     
     # Verify that the file is a gif
-    if !file_path.lower().endswith('.gif'):
+    if not file_path.lower().endswith('.gif'):
         return
         
     # Verify the file is actually a gif
-    if !imghdr.what(file_path) == 'gif':   
+    if not imghdr.what(file_path) == 'gif':   
         return
         
     # Check that the Gif is in the relative folder '/gifs' 
@@ -111,6 +112,16 @@ def pick_gif(self, initial_path): # Enable Importing if the path is not in the g
 
 def load_gif(self, gif_path):
     self.gif = Image.open(gif_path)
+    
+    config_path = 'config.yaml'
+    try:
+        with open(config_path, 'r') as file:
+            config_data = yaml.safe_load(file)
+        config_data['gif_name'] = gif_path
+        with open(config_path, 'w') as file:
+            yaml.dump(config_data, file)
+    except (FileNotFoundError, yaml.YAMLError) as e:
+        print(f"Error saving config: {e}")
     
     # Determine the transparent color of the GIF
     self.gif_transparency_hex_color = get_gif_transparent_color(self.gif)
