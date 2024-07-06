@@ -5,6 +5,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog, Toplevel
 import os
 import imghdr
+import shutil
 
 
 
@@ -76,20 +77,36 @@ def initial_pick_gif(initial_path):
 
 
 def pick_gif(self, initial_path): # Enable Importing if the path is not in the gifs folder TODO
+    # Get a Filepath
     file_path = filedialog.askopenfilename(
         initialdir = initial_path,
         title = "Select a GIF file",
         filetypes = (("GIF images", "*.gif"), ("All files", "*.*"))
     )
     
-    if os.path.isfile(file_path) and file_path.lower().endswith('.gif'):
-        # Verify the file type is actually a gif
-        if imghdr.what(file_path) == 'gif':
-            # Verify that the Gif is in the relative folder '/gifs' 
-            if os.path.commonpath([os.path.realpath(file_path), os.path.realpath('./gifs')]) == os.path.realpath('./gifs'):
-                # change the filename in the config
-                # reload the gif
-                load_gif(self, file_path)
+    
+    # Verify that the file is indeed a file
+    if os.path.isfile(file_path) 
+        return
+    
+    # Verify that the file is a gif
+    if !file_path.lower().endswith('.gif'):
+        return
+        
+    # Verify the file is actually a gif
+    if !imghdr.what(file_path) == 'gif':   
+        return
+        
+    # Check that the Gif is in the relative folder '/gifs' 
+    if os.path.commonpath([os.path.realpath(file_path), os.path.realpath('./gifs')]) != os.path.realpath('./gifs'):
+        # Copy the File into the Gif directory and change the filename
+        destination_path = os.path.join(os.getcwd(), "gifs")
+        source_path = file_path
+        shutil.copy(source_path, destination_path)
+        file_path = os.path.join("gifs", os.path.basename(source_path))
+    
+    # Change the GIF
+    load_gif(self, file_path)
 
 
 def load_gif(self, gif_path):
