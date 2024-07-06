@@ -1,3 +1,4 @@
 
 *.gif
 /code/__pycache__
+/code/test

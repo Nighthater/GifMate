@@ -70,10 +70,12 @@ def initial_pick_gif(initial_path):
         # Verify the file type is actually a gif
         if imghdr.what(file_path) == 'gif':
             return file_path
+        else:
+            return None
 
 
 
-def pick_gif(self, initial_path):
+def pick_gif(self, initial_path): # Enable Importing if the path is not in the gifs folder TODO
     file_path = filedialog.askopenfilename(
         initialdir = initial_path,
         title = "Select a GIF file",

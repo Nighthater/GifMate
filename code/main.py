@@ -155,7 +155,7 @@ def ensure_gifs_folder():
 
 
 def main():
-    root = tk.Tk()
+    
     config_data = load_config()
 
     ensure_gifs_folder()
@@ -164,6 +164,10 @@ def main():
     if not os.path.exists(gif_path):
         initial_path = "/"
         source_path = h_giftools.initial_pick_gif(initial_path)
+        
+        if source_path == None:
+            exit()
+        
         destination_path = os.path.join(os.getcwd(), "gifs")
         shutil.copy(source_path, destination_path)
         gif_path = os.path.join("gifs", os.path.basename(source_path))
@@ -171,6 +175,7 @@ def main():
         with open('config.yaml', 'w') as file:
             yaml.dump(config_data, file)
 
+    root = tk.Tk()
     if config_data.get('first_run', True):
         ws = root.winfo_screenwidth()
         hs = root.winfo_screenheight()
@@ -182,7 +187,8 @@ def main():
     else:
         pos_x = config_data.get('last_pos_X', 0)
         pos_y = config_data.get('last_pos_Y', 0)
-
+    
+    
     app = GifMate(root, gif_path, pos_x, pos_y)
     svc_ttk.set_theme("dark")
     root.mainloop()
